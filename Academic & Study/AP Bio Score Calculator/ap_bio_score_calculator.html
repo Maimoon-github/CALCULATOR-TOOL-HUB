@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AP Bio Score Calculator 2025–2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #f4f6f0;
+    --surface:   #ffffff;
+    --border:    #dde3d6;
+    --text-main: #1c2b1a;
+    --text-sub:  #6b7c69;
+    --accent:    #3a7d44;
+    --accent-lt: #e8f5eb;
+    --s5:        #2d8a4e;
+    --s4:        #5bac70;
+    --s3:        #e8a030;
+    --s2:        #e06030;
+    --s1:        #c0392b;
+    --radius:    14px;
+    --shadow:    0 4px 24px rgba(0,0,0,.08);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  header {
+    background: var(--accent);
+    color: #fff;
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  header .leaf { font-size: 2.4rem; line-height: 1; }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.2;
+  }
+  header p {
+    font-size: .82rem;
+    opacity: .82;
+    margin-top: 4px;
+    letter-spacing: .02em;
+  }
+
+  /* ── MAIN GRID ───────────────────────────────────────── */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 28px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  @media(max-width: 720px) {
+    main { grid-template-columns: 1fr; padding: 18px 16px; }
+    header { padding: 20px 18px 16px; }
+  }
+
+  /* ── CARD ───────────────────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 24px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title span { font-size: 1.1rem; }
+
+  /* ── INPUTS ─────────────────────────────────────────── */
+  .field-group { margin-bottom: 22px; }
+  .field-label {
+    display: block;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+  }
+  .field-desc {
+    font-size: .78rem;
+    color: var(--text-sub);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  input[type=number] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    color: var(--text-main);
+    background: var(--bg);
+    transition: border .18s, box-shadow .18s;
+    -moz-appearance: textfield;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type=number]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(58,125,68,.15);
+    background: #fff;
+  }
+  input.error { border-color: var(--s1); }
+
+  .frq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .frq-item label {
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--text-sub);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    align-items: center;
+  }
+  .frq-item label .max { opacity: .6; font-weight: 400; }
+
+  .frq-total {
+    margin-top: 12px;
+    background: var(--accent-lt);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: .84rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .frq-total .val { font-size: 1.15rem; }
+
+  /* tooltip */
+  .tooltip-wrap { position: relative; display: inline-flex; align-items: center; margin-left: 5px; cursor: help; }
+  .tooltip-icon { font-size: .78rem; color: var(--text-sub); }
+  .tooltip-box {
+    display: none;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1c2b1a;
+    color: #fff;
+    font-size: .73rem;
+    padding: 7px 11px;
+    border-radius: 7px;
+    width: 210px;
+    line-height: 1.5;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .tooltip-wrap:hover .tooltip-box { display: block; }
+
+  /* ── BUTTON ─────────────────────────────────────────── */
+  .calc-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    cursor: pointer;
+    transition: background .18s, transform .12s, opacity .18s;
+    margin-top: 4px;
+  }
+  .calc-btn:hover:not(:disabled) { background: #2d6636; transform: translateY(-1px); }
+  .calc-btn:active:not(:disabled) { transform: translateY(0); }
+  .calc-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  /* ── RESULTS ─────────────────────────────────────────── */
+  .results-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    text-align: center;
+    gap: 10px;
+    color: var(--text-sub);
+  }
+  .results-placeholder .icon { font-size: 2.5rem; opacity: .4; }
+  .results-placeholder p { font-size: .86rem; max-width: 200px; line-height: 1.6; }
+
+  .results-body { display: none; animation: fadeIn .35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* score badge */
+  .score-badge-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .score-badge {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.6rem;
+    color: #fff;
+    transition: background .4s;
+    box-shadow: 0 6px 28px rgba(0,0,0,.15);
+    position: relative;
+  }
+  .score-badge::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2.5px solid currentColor;
+    opacity: .25;
+  }
+  .score-label {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin-top: 10px;
+  }
+  .score-qualifier {
+    font-size: .92rem;
+    font-weight: 600;
+    margin-top: 3px;
+    color: var(--text-main);
+  }
+  .composite-line {
+    font-size: .82rem;
+    color: var(--text-sub);
+    margin-top: 2px;
+  }
+
+  /* progress bars */
+  .section-bars { margin-bottom: 18px; }
+  .bar-row { margin-bottom: 14px; }
+  .bar-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    margin-bottom: 5px;
+  }
+  .bar-header .name { font-weight: 600; }
+  .bar-header .pct { color: var(--text-sub); }
+  .bar-track {
+    height: 9px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--accent);
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-fill.frq { background: #5a9e7a; }
+
+  /* insight box */
+  .insight-box {
+    background: var(--accent-lt);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    font-size: .83rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    margin-bottom: 18px;
+  }
+
+  /* what if */
+  .whatif-title {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .whatif-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: .83rem;
+  }
+  .whatif-row label { flex: 1; color: var(--text-sub); }
+  .whatif-stepper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .step-btn {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .15s, background .15s;
+  }
+  .step-btn:hover { border-color: var(--accent); background: var(--accent-lt); }
+  .step-val {
+    width: 32px;
+    text-align: center;
+    font-weight: 600;
+    font-size: .9rem;
+  }
+  .whatif-result {
+    background: #f0faf3;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: .82rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+  }
+  .whatif-score {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  /* ── SCORE CUTOFF LEGEND ────────────────────────────── */
+  .legend {
+    grid-column: 1 / -1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    box-shadow: var(--shadow);
+  }
+  .legend-title {
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin-bottom: 14px;
+  }
+  .legend-items {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    flex: 1 1 140px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: .8rem;
+  }
+  .legend-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .legend-item .desc { color: var(--text-sub); font-size: .75rem; margin-top: 1px; }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 16px 24px;
+    font-size: .73rem;
+    color: var(--text-sub);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="leaf">🧬</div>
+  <div>
+    <h1>AP Bio Score Calculator <em style="font-style:italic;opacity:.8;font-size:.75em">2025–2026</em></h1>
+    <p>Predict your score based on official College Board weighting.</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── LEFT: INPUT ───────────────────────────────────── -->
+  <div class="card">
+    <div class="card-title"><span>📝</span> Enter Your Scores</div>
+
+    <!-- MCQ -->
+    <div class="field-group">
+      <label class="field-label" for="mcq">MCQ Score (out of 60)</label>
+      <p class="field-desc">Enter the number of correct answers. There is no penalty for guessing.</p>
+      <input type="number" id="mcq" min="0" max="60" placeholder="e.g. 42" />
+    </div>
+
+    <!-- FRQ -->
+    <div class="field-group">
+      <label class="field-label">
+        Free Response Score (FRQ)
+        <span class="tooltip-wrap">
+          <span class="tooltip-icon">ⓘ</span>
+          <span class="tooltip-box">Use official College Board FRQ rubrics to self-score accurately.</span>
+        </span>
+      </label>
+      <p class="field-desc">Enter the points earned per question. Use official rubrics for accuracy.</p>
+      <div class="frq-grid">
+        <div class="frq-item">
+          <label for="f1">FRQ 1 <em style="font-style:normal">(Long)</em> <span class="max">/ 10</span></label>
+          <input type="number" id="f1" min="0" max="10" placeholder="0–10" />
+        </div>
+        <div class="frq-item">
+          <label for="f2">FRQ 2 <em style="font-style:normal">(Long)</em> <span class="max">/ 10</span></label>
+          <input type="number" id="f2" min="0" max="10" placeholder="0–10" />
+        </div>
+        <div class="frq-item">
+          <label for="f3">FRQ 3 <em style="font-style:normal">(Short)</em> <span class="max">/ 4</span></label>
+          <input type="number" id="f3" min="0" max="4" placeholder="0–4" />
+        </div>
+        <div class="frq-item">
+          <label for="f4">FRQ 4 <em style="font-style:normal">(Short)</em> <span class="max">/ 4</span></label>
+          <input type="number" id="f4" min="0" max="4" placeholder="0–4" />
+        </div>
+        <div class="frq-item">
+          <label for="f5">FRQ 5 <em style="font-style:normal">(Short)</em> <span class="max">/ 4</span></label>
+          <input type="number" id="f5" min="0" max="4" placeholder="0–4" />
+        </div>
+        <div class="frq-item">
+          <label for="f6">FRQ 6 <em style="font-style:normal">(Short)</em> <span class="max">/ 4</span></label>
+          <input type="number" id="f6" min="0" max="4" placeholder="0–4" />
+        </div>
+      </div>
+      <div class="frq-total">
+        <span>Total FRQ Raw</span>
+        <span class="val" id="frq-total-display">— / 36</span>
+      </div>
+    </div>
+
+    <button class="calc-btn" id="calc-btn" disabled>Calculate My Score</button>
+  </div>
+
+  <!-- ── RIGHT: RESULTS ────────────────────────────────── -->
+  <div class="card" id="results-card">
+
+    <!-- Placeholder -->
+    <div class="results-placeholder" id="placeholder">
+      <div class="icon">📊</div>
+      <p>Enter your scores on the left to see your predicted AP score here.</p>
+    </div>
+
+    <!-- Results -->
+    <div class="results-body" id="results-body">
+
+      <div class="score-badge-wrap">
+        <div class="score-badge" id="score-badge">–</div>
+        <div class="score-label">Predicted AP Score</div>
+        <div class="score-qualifier" id="score-qualifier">–</div>
+        <div class="composite-line" id="composite-line">–</div>
+      </div>
+
+      <div class="section-bars">
+        <div class="bar-row">
+          <div class="bar-header">
+            <span class="name">MCQ Section</span>
+            <span class="pct" id="mcq-pct">–</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="mcq-bar" style="width:0%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-header">
+            <span class="name">FRQ Section</span>
+            <span class="pct" id="frq-pct">–</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill frq" id="frq-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="insight-box" id="insight-box">–</div>
+
+      <!-- What If -->
+      <div class="whatif-title">✨ What if I do better?</div>
+      <div class="whatif-row">
+        <label>Additional MCQ points</label>
+        <div class="whatif-stepper">
+          <button class="step-btn" onclick="step('wiMcq',-1)">−</button>
+          <span class="step-val" id="wiMcq-val">0</span>
+          <button class="step-btn" onclick="step('wiMcq',1)">+</button>
+        </div>
+      </div>
+      <div class="whatif-row">
+        <label>Additional FRQ points</label>
+        <div class="whatif-stepper">
+          <button class="step-btn" onclick="step('wiFrq',-1)">−</button>
+          <span class="step-val" id="wiFrq-val">0</span>
+          <button class="step-btn" onclick="step('wiFrq',1)">+</button>
+        </div>
+      </div>
+      <div class="whatif-result">
+        <span id="wi-label" style="color:var(--text-sub);font-size:.82rem;">Adjusted Predicted Score</span>
+        <span class="whatif-score" id="wi-score">–</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LEGEND ─────────────────────────────────────────── -->
+  <div class="legend">
+    <div class="legend-title">Score Scale Reference</div>
+    <div class="legend-items">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--s5)">5</div>
+        <div>
+          <div><strong>Extremely Well Qualified</strong></div>
+          <div class="desc">Composite ≥ 90 &nbsp;|&nbsp; ~7–16% of students</div>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--s4)">4</div>
+        <div>
+          <div><strong>Well Qualified</strong></div>
+          <div class="desc">Composite 75–89 &nbsp;|&nbsp; Credit at most schools</div>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--s3)">3</div>
+        <div>
+          <div><strong>Qualified</strong></div>
+          <div class="desc">Composite 60–74 &nbsp;|&nbsp; Minimum passing level</div>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--s2)">2</div>
+        <div>
+          <div><strong>Possibly Qualified</strong></div>
+          <div class="desc">Composite 43–59 &nbsp;|&nbsp; Generally no college credit</div>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--s1)">1</div>
+        <div>
+          <div><strong>No Recommendation</strong></div>
+          <div class="desc">Composite &lt; 43 &nbsp;|&nbsp; Does not qualify</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Prediction based on College Board scoring data (2022–2025). Actual scores may vary slightly due to exam equating.
+</footer>
+
+<script>
+  // ── CONSTANTS ────────────────────────────────────────
+  const CUTOFFS = [ [90,5], [75,4], [60,3], [43,2], [0,1] ];
+  const QUALIFIERS = {
+    5: 'Extremely Well Qualified',
+    4: 'Well Qualified',
+    3: 'Qualified',
+    2: 'Possibly Qualified',
+    1: 'No Recommendation'
+  };
+  const COLORS = {
+    5: 'var(--s5)', 4: 'var(--s4)', 3: 'var(--s3)', 2: 'var(--s2)', 1: 'var(--s1)'
+  };
+  const FRQ_MAX = [10,10,4,4,4,4];
+  const frqIds = ['f1','f2','f3','f4','f5','f6'];
+
+  // whatif state
+  let wiMcq = 0, wiFrq = 0;
+  let lastMCQ = 0, lastFRQ = 0;
+
+  // ── PRE-POPULATE ────────────────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('mcq').value = 42;
+    const defaults = [7,6,3,3,2,2];
+    frqIds.forEach((id,i) => document.getElementById(id).value = defaults[i]);
+    updateFRQTotal();
+    checkReady();
+    calculate();
+  });
+
+  // ── LIVE EVENTS ──────────────────────────────────────
+  document.getElementById('mcq').addEventListener('input', () => { checkReady(); });
+  frqIds.forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      updateFRQTotal(); checkReady();
+    });
+  });
+  document.getElementById('calc-btn').addEventListener('click', calculate);
+
+  function updateFRQTotal() {
+    let total = 0;
+    frqIds.forEach((id,i) => {
+      let v = parseFloat(document.getElementById(id).value);
+      if (!isNaN(v)) total += Math.min(v, FRQ_MAX[i]);
+    });
+    document.getElementById('frq-total-display').textContent =
+      (isNaN(total) ? '—' : total.toFixed(1)) + ' / 36';
+  }
+
+  function checkReady() {
+    const mcq = document.getElementById('mcq').value.trim();
+    let allFRQ = frqIds.every(id => document.getElementById(id).value.trim() !== '');
+    document.getElementById('calc-btn').disabled = !(mcq !== '' && allFRQ);
+  }
+
+  function getComposite(mcq, frq) {
+    const scaledFRQ = (frq / 36) * 60;
+    return mcq + scaledFRQ;
+  }
+
+  function getAPScore(composite) {
+    for (const [threshold, score] of CUTOFFS) {
+      if (composite >= threshold) return score;
+    }
+    return 1;
+  }
+
+  function calculate() {
+    let mcq = parseFloat(document.getElementById('mcq').value);
+    let frq = 0;
+    frqIds.forEach((id,i) => {
+      let v = parseFloat(document.getElementById(id).value) || 0;
+      frq += Math.min(v, FRQ_MAX[i]);
+    });
+    mcq = Math.min(Math.max(mcq,0), 60);
+    frq = Math.min(Math.max(frq,0), 36);
+    lastMCQ = mcq; lastFRQ = frq;
+    wiMcq = 0; wiFrq = 0;
+    document.getElementById('wiMcq-val').textContent = 0;
+    document.getElementById('wiFrq-val').textContent = 0;
+
+    const composite = getComposite(mcq, frq);
+    const score = getAPScore(composite);
+    renderResults(mcq, frq, composite, score);
+  }
+
+  function renderResults(mcq, frq, composite, score) {
+    document.getElementById('placeholder').style.display = 'none';
+    const body = document.getElementById('results-body');
+    body.style.display = 'block';
+    // restart animation
+    body.style.animation = 'none';
+    body.offsetHeight;
+    body.style.animation = '';
+
+    // Badge
+    const badge = document.getElementById('score-badge');
+    badge.textContent = score;
+    badge.style.background = COLORS[score];
+    document.getElementById('score-qualifier').textContent = QUALIFIERS[score];
+    document.getElementById('composite-line').textContent =
+      `Composite Score: ${composite.toFixed(1)} / 120`;
+
+    // Bars
+    const mcqPct = (mcq / 60) * 50;
+    const frqPct = (frq / 36) * 50;
+    document.getElementById('mcq-pct').textContent = `${mcq}/60 — contributes ${mcqPct.toFixed(1)}%`;
+    document.getElementById('frq-pct').textContent = `${frq}/36 — contributes ${frqPct.toFixed(1)}%`;
+    setTimeout(() => {
+      document.getElementById('mcq-bar').style.width = `${(mcq/60)*100}%`;
+      document.getElementById('frq-bar').style.width = `${(frq/36)*100}%`;
+    }, 50);
+
+    // Insight
+    document.getElementById('insight-box').innerHTML = buildInsight(mcq, frq, composite, score);
+
+    // whatif
+    updateWhatIf();
+  }
+
+  function buildInsight(mcq, frq, composite, score) {
+    const mcqPct = (mcq / 60) * 100;
+    const frqPct = (frq / 36) * 100;
+    const nextTier = score < 5 ? CUTOFFS.find(c => c[1] === score+1)?.[0] : null;
+
+    if (score === 5) return `🎉 <strong>Outstanding!</strong> You're scoring a 5. Keep up this level of preparation and you're well-positioned for college credit.`;
+
+    if (nextTier) {
+      const gap = nextTier - composite;
+      const frqEquiv = ((gap / 60) * 36).toFixed(1);
+      const mcqEquiv = Math.ceil(gap);
+      if (mcqPct > frqPct) {
+        return `Your <strong>MCQ score is strong</strong>. Improving your FRQs by just <strong>${frqEquiv} points</strong> could push you to a <strong>${score+1}</strong>.`;
+      } else if (frqPct > mcqPct) {
+        return `Your <strong>FRQ score is solid</strong>. Aim for <strong>${mcqEquiv} more MCQ points</strong> to reach a <strong>${score+1}</strong>. Practice timed question sets!`;
+      } else {
+        return `You're on track for a <strong>${score}</strong>. A balanced improvement of <strong>~${frqEquiv} FRQ pts</strong> or <strong>${mcqEquiv} MCQ pts</strong> would push you to a <strong>${score+1}</strong>.`;
+      }
+    }
+    return `You're in the <strong>${score} range</strong>. Focus on review and FRQ practice to build your composite score.`;
+  }
+
+  // ── WHAT IF ─────────────────────────────────────────
+  function step(field, dir) {
+    if (field === 'wiMcq') {
+      wiMcq = Math.min(Math.max(wiMcq + dir, 0), 60 - lastMCQ);
+      document.getElementById('wiMcq-val').textContent = wiMcq;
+    } else {
+      wiFrq = Math.min(Math.max(wiFrq + dir, 0), 36 - lastFRQ);
+      document.getElementById('wiFrq-val').textContent = wiFrq;
+    }
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    const adjMCQ = lastMCQ + wiMcq;
+    const adjFRQ = lastFRQ + wiFrq;
+    const adjComp = getComposite(adjMCQ, adjFRQ);
+    const adjScore = getAPScore(adjComp);
+    const el = document.getElementById('wi-score');
+    el.textContent = adjScore;
+    el.style.color = COLORS[adjScore];
+    const base = getAPScore(getComposite(lastMCQ, lastFRQ));
+    document.getElementById('wi-label').textContent =
+      adjScore > base ? `↑ Improved from ${base} to` : adjScore === base ? 'Still on track for' : `Adjusted Predicted Score`;
+  }
+</script>
+</body>
+</html>
