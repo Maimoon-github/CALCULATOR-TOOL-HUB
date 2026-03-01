@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP World History Score Calculator 2025–2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f5f0e8;
+    --parchment-dark: #ede6d5;
+    --ink: #1c1410;
+    --ink-light: #4a3f35;
+    --terracotta: #b5451b;
+    --terracotta-light: #d4622e;
+    --gold: #c4922a;
+    --gold-light: #e8b84b;
+    --forest: #2d5016;
+    --olive: #6b7c3a;
+    --score5: #2d5016;
+    --score4: #4a7c59;
+    --score3: #c4922a;
+    --score2: #c47020;
+    --score1: #9b2b2b;
+    --shadow: rgba(28,20,16,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background-color: var(--parchment);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(180,140,80,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 90%, rgba(181,69,27,0.05) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .header-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .header-rule::before, .header-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--terracotta), transparent);
+  }
+  .header-rule span {
+    font-size: 1.1rem;
+    color: var(--terracotta);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  h1 span {
+    color: var(--terracotta);
+  }
+
+  .subhead {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    color: var(--ink-light);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  .year-tag {
+    display: inline-block;
+    margin-top: 0.75rem;
+    background: var(--ink);
+    color: var(--parchment);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+  }
+
+  /* ── MAIN GRID ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (max-width: 720px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: rgba(255,252,246,0.85);
+    border: 1px solid rgba(28,20,16,0.12);
+    border-radius: 2px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px var(--shadow), 0 0 0 1px rgba(255,255,255,0.6) inset;
+    position: relative;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: -6px; bottom: -6px;
+    border: 1px solid rgba(28,20,16,0.06);
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--parchment-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .card-title .icon { font-size: 1rem; }
+
+  /* ── INPUT GROUPS ── */
+  .input-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.03em;
+  }
+
+  .section-tag {
+    font-size: 0.65rem;
+    background: var(--terracotta);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    border-radius: 1px;
+  }
+
+  .input-desc {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  input[type="number"] {
+    width: 80px;
+    padding: 0.55rem 0.75rem;
+    font-size: 1.1rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--ink);
+    background: var(--parchment);
+    border: 1.5px solid rgba(28,20,16,0.2);
+    border-radius: 2px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus {
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(181,69,27,0.12);
+  }
+
+  input[type="number"].invalid {
+    border-color: #c44;
+    box-shadow: 0 0 0 3px rgba(200,60,60,0.12);
+  }
+
+  .input-max {
+    font-size: 0.8rem;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+
+  /* Mini bar under each input */
+  .mini-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--parchment-dark);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--terracotta));
+    border-radius: 3px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* tooltip */
+  .tooltip-wrap { position: relative; display: inline-flex; }
+  .tooltip-icon {
+    width: 16px; height: 16px;
+    background: var(--parchment-dark);
+    border: 1px solid rgba(28,20,16,0.2);
+    border-radius: 50%;
+    font-size: 0.65rem;
+    color: var(--ink-light);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-family: serif;
+    font-style: italic;
+    font-weight: 700;
+    user-select: none;
+  }
+  .tooltip-box {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--parchment);
+    font-size: 0.72rem;
+    font-style: normal;
+    line-height: 1.45;
+    padding: 0.5rem 0.75rem;
+    width: 200px;
+    border-radius: 2px;
+    z-index: 10;
+    font-family: 'Source Serif 4', serif;
+    font-weight: 300;
+    pointer-events: none;
+  }
+  .tooltip-wrap:hover .tooltip-box { display: block; }
+
+  /* ── CALCULATE BUTTON ── */
+  .calc-btn {
+    width: 100%;
+    padding: 0.9rem 1.5rem;
+    background: var(--terracotta);
+    color: var(--parchment);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    margin-top: 0.5rem;
+    box-shadow: 0 3px 8px rgba(181,69,27,0.25), 0 1px 0 rgba(255,255,255,0.15) inset;
+    position: relative;
+    overflow: hidden;
+  }
+  .calc-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.08), transparent);
+  }
+  .calc-btn:hover:not(:disabled) {
+    background: var(--terracotta-light);
+    box-shadow: 0 5px 16px rgba(181,69,27,0.35);
+    transform: translateY(-1px);
+  }
+  .calc-btn:active:not(:disabled) { transform: translateY(1px); }
+  .calc-btn:disabled {
+    background: #b8a898;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* ── RESULTS ── */
+  .results-placeholder {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ink-light);
+  }
+  .results-placeholder .ph-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  .results-placeholder p {
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .results-panel { display: none; }
+  .results-panel.visible { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Score Badge */
+  .score-badge-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: var(--parchment);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 2px;
+    position: relative;
+  }
+
+  .score-badge {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2), 0 0 0 4px rgba(255,255,255,0.8), 0 0 0 6px currentColor;
+    transition: background 0.4s, box-shadow 0.4s;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .score-qualifier {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-top: 0.25rem;
+  }
+
+  .predicted-label {
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 300;
+  }
+
+  .composite-display {
+    text-align: center;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .composite-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .composite-label {
+    font-size: 0.75rem;
+    color: var(--ink-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: 0.3rem;
+    font-weight: 300;
+  }
+
+  /* Section bars */
+  .section-bars { margin-bottom: 1.5rem; }
+  .bar-row {
+    margin-bottom: 0.9rem;
+  }
+  .bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.3rem;
+  }
+  .bar-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    font-family: 'Playfair Display', serif;
+  }
+  .bar-value {
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    font-style: italic;
+  }
+  .bar-track {
+    height: 8px;
+    background: var(--parchment-dark);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .bar-fill.mcq { background: linear-gradient(to right, #8b6914, var(--gold)); }
+  .bar-fill.saq { background: linear-gradient(to right, #a03810, var(--terracotta-light)); }
+  .bar-fill.dbq { background: linear-gradient(to right, #2d5016, #6aaa3a); }
+  .bar-fill.leq { background: linear-gradient(to right, #1a3d6b, #3a7abf); }
+
+  /* Insight box */
+  .insight-box {
+    background: linear-gradient(135deg, rgba(196,146,42,0.1), rgba(181,69,27,0.08));
+    border-left: 3px solid var(--gold);
+    padding: 0.85rem 1rem;
+    border-radius: 0 2px 2px 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .insight-box strong { font-style: normal; color: var(--terracotta); }
+
+  /* What if */
+  .whatif-section {
+    border-top: 1px solid var(--parchment-dark);
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .whatif-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .stepper-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .stepper-item {
+    background: var(--parchment);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 2px;
+    padding: 0.6rem 0.75rem;
+  }
+  .stepper-label {
+    font-size: 0.68rem;
+    color: var(--ink-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+  }
+  .stepper-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .step-btn {
+    width: 24px; height: 24px;
+    background: var(--parchment-dark);
+    border: 1px solid rgba(28,20,16,0.2);
+    border-radius: 2px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.15s;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .step-btn:hover { background: var(--terracotta); color: white; }
+  .step-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .step-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--terracotta);
+    min-width: 20px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .whatif-result {
+    background: var(--parchment);
+    border: 1px dashed rgba(28,20,16,0.2);
+    padding: 0.65rem 0.9rem;
+    border-radius: 2px;
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .whatif-result strong { color: var(--terracotta); font-family: 'Playfair Display', serif; }
+
+  /* Score scale reference */
+  .score-scale {
+    margin-top: 2.5rem;
+  }
+  .scale-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+  .scale-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .scale-badge {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    font-weight: 900;
+    color: white;
+    flex-shrink: 0;
+  }
+  .scale-info { flex: 1; }
+  .scale-info strong { font-size: 0.8rem; font-family: 'Playfair Display', serif; }
+  .scale-info span { font-size: 0.72rem; color: var(--ink-light); display: block; font-style: italic; }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(28,20,16,0.1);
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 720px) {
+    .stepper-grid { grid-template-columns: 1fr 1fr; }
+    .card { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-rule"><span>Academic · Study Tools</span></div>
+    <h1>AP World History<br><span>Score Calculator</span></h1>
+    <p class="subhead">Predict your AP score using official College Board section weights</p>
+    <div class="year-tag">2025 – 2026 Exam</div>
+  </header>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- LEFT: INPUTS -->
+    <div class="card">
+      <div class="card-title">
+        <span class="icon">📝</span> Enter Your Raw Scores
+      </div>
+
+      <!-- MCQ -->
+      <div class="input-group">
+        <div class="input-label">
+          <span class="section-tag">Sec I–A</span>
+          MCQ Score
+          <div class="tooltip-wrap">
+            <div class="tooltip-icon">i</div>
+            <div class="tooltip-box">Section I, Part A. 55 multiple-choice questions. Count all correct answers — no penalty for guessing.</div>
+          </div>
+        </div>
+        <div class="input-desc">Enter the number of correct answers. No penalty for guessing.</div>
+        <div class="input-row">
+          <input type="number" id="mcq" min="0" max="55" value="42" placeholder="0">
+          <span class="input-max">out of 55</span>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-fill" id="mcq-mini"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAQ -->
+      <div class="input-group">
+        <div class="input-label">
+          <span class="section-tag">Sec I–B</span>
+          SAQ Score
+          <div class="tooltip-wrap">
+            <div class="tooltip-icon">i</div>
+            <div class="tooltip-box">3 Short Answer Questions, each with three parts (A, B, C), each part worth 1 point. Max = 9. Choose between SAQ 3 or SAQ 4.</div>
+          </div>
+        </div>
+        <div class="input-desc">3 questions × 3 points each. Total raw = 9 pts (20% weight).</div>
+        <div class="input-row">
+          <input type="number" id="saq" min="0" max="9" value="7" placeholder="0">
+          <span class="input-max">out of 9</span>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-fill" id="saq-mini"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DBQ -->
+      <div class="input-group">
+        <div class="input-label">
+          <span class="section-tag">Sec II–A</span>
+          DBQ Score
+          <div class="tooltip-wrap">
+            <div class="tooltip-icon">i</div>
+            <div class="tooltip-box">Document-Based Question. Use official College Board rubrics to self-score. Rubric points: thesis, contextualization, evidence, document sourcing, complexity.</div>
+          </div>
+        </div>
+        <div class="input-desc">Total points earned on the DBQ rubric. Max = 7 pts (25% weight).</div>
+        <div class="input-row">
+          <input type="number" id="dbq" min="0" max="7" value="5" placeholder="0">
+          <span class="input-max">out of 7</span>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-fill" id="dbq-mini"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEQ -->
+      <div class="input-group">
+        <div class="input-label">
+          <span class="section-tag">Sec II–B</span>
+          LEQ Score
+          <div class="tooltip-wrap">
+            <div class="tooltip-icon">i</div>
+            <div class="tooltip-box">Long Essay Question. Choose one of three prompts. Rubric points: thesis, contextualization, specific evidence, historical reasoning, complexity.</div>
+          </div>
+        </div>
+        <div class="input-desc">Total points earned on the LEQ rubric. Max = 6 pts (15% weight).</div>
+        <div class="input-row">
+          <input type="number" id="leq" min="0" max="6" value="4" placeholder="0">
+          <span class="input-max">out of 6</span>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-fill" id="leq-mini"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" id="calcBtn" onclick="calculate()">Calculate My Score →</button>
+
+      <!-- Score Scale Reference -->
+      <div class="score-scale">
+        <div class="scale-title">Score Scale Reference</div>
+        <div class="scale-row">
+          <div class="scale-badge" style="background:var(--score5)">5</div>
+          <div class="scale-info">
+            <strong>Extremely Well Qualified</strong>
+            <span>112–150 composite · ~75%+ of points</span>
+          </div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-badge" style="background:var(--score4)">4</div>
+          <div class="scale-info">
+            <strong>Well Qualified</strong>
+            <span>90–111 composite · ~60–74% of points</span>
+          </div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-badge" style="background:var(--score3)">3</div>
+          <div class="scale-info">
+            <strong>Qualified</strong>
+            <span>65–89 composite · ~43–59% of points</span>
+          </div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-badge" style="background:var(--score2)">2</div>
+          <div class="scale-info">
+            <strong>Possibly Qualified</strong>
+            <span>40–64 composite · ~27–42% of points</span>
+          </div>
+        </div>
+        <div class="scale-row">
+          <div class="scale-badge" style="background:var(--score1)">1</div>
+          <div class="scale-info">
+            <strong>No Recommendation</strong>
+            <span>0–39 composite · below 27% of points</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div class="card">
+      <div class="card-title">
+        <span class="icon">📊</span> Your Predicted Score
+      </div>
+
+      <!-- Placeholder -->
+      <div class="results-placeholder" id="placeholder">
+        <div class="ph-icon">🏛️</div>
+        <p>Enter your raw scores on the left and click <em>"Calculate My Score"</em> to see your predicted AP score, section breakdown, and improvement tips.</p>
+      </div>
+
+      <!-- Results Panel -->
+      <div class="results-panel" id="resultsPanel">
+
+        <!-- Badge -->
+        <div class="score-badge-area">
+          <div class="predicted-label">Predicted AP Score</div>
+          <div class="score-badge" id="scoreBadge">—</div>
+          <div class="score-qualifier" id="scoreQualifier"></div>
+        </div>
+
+        <!-- Composite -->
+        <div class="composite-display">
+          <span class="composite-number" id="compositeDisplay">—</span>
+          <span class="composite-label">/ 150 Composite</span>
+          <div class="tooltip-wrap" style="display:inline-flex; vertical-align:middle; margin-left:4px">
+            <div class="tooltip-icon">i</div>
+            <div class="tooltip-box">Weighted total out of 150. Calculated using official College Board section weighting formula.</div>
+          </div>
+        </div>
+
+        <!-- Section Bars -->
+        <div class="section-bars">
+          <div class="bar-row">
+            <div class="bar-header">
+              <span class="bar-label">MCQ <small style="font-weight:400;color:var(--ink-light)">(40%)</small></span>
+              <span class="bar-value" id="mcq-bar-val">—</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill mcq" id="mcq-bar"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-header">
+              <span class="bar-label">SAQ <small style="font-weight:400;color:var(--ink-light)">(20%)</small></span>
+              <span class="bar-value" id="saq-bar-val">—</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill saq" id="saq-bar"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-header">
+              <span class="bar-label">DBQ <small style="font-weight:400;color:var(--ink-light)">(25%)</small></span>
+              <span class="bar-value" id="dbq-bar-val">—</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill dbq" id="dbq-bar"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-header">
+              <span class="bar-label">LEQ <small style="font-weight:400;color:var(--ink-light)">(15%)</small></span>
+              <span class="bar-value" id="leq-bar-val">—</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill leq" id="leq-bar"></div></div>
+          </div>
+        </div>
+
+        <!-- Insight -->
+        <div class="insight-box" id="insightBox"></div>
+
+        <!-- What If -->
+        <div class="whatif-section">
+          <div class="whatif-title">✨ What if I improve?</div>
+          <div class="stepper-grid">
+            <div class="stepper-item">
+              <div class="stepper-label">+MCQ Points</div>
+              <div class="stepper-controls">
+                <button class="step-btn" id="wi-mcq-minus" onclick="stepChange('wi_mcq',-1)">−</button>
+                <div class="step-val" id="wi-mcq-val">0</div>
+                <button class="step-btn" id="wi-mcq-plus"  onclick="stepChange('wi_mcq',+1)">+</button>
+              </div>
+            </div>
+            <div class="stepper-item">
+              <div class="stepper-label">+SAQ Points</div>
+              <div class="stepper-controls">
+                <button class="step-btn" id="wi-saq-minus" onclick="stepChange('wi_saq',-1)">−</button>
+                <div class="step-val" id="wi-saq-val">0</div>
+                <button class="step-btn" id="wi-saq-plus"  onclick="stepChange('wi_saq',+1)">+</button>
+              </div>
+            </div>
+            <div class="stepper-item">
+              <div class="stepper-label">+DBQ Points</div>
+              <div class="stepper-controls">
+                <button class="step-btn" id="wi-dbq-minus" onclick="stepChange('wi_dbq',-1)">−</button>
+                <div class="step-val" id="wi-dbq-val">0</div>
+                <button class="step-btn" id="wi-dbq-plus"  onclick="stepChange('wi_dbq',+1)">+</button>
+              </div>
+            </div>
+            <div class="stepper-item">
+              <div class="stepper-label">+LEQ Points</div>
+              <div class="stepper-controls">
+                <button class="step-btn" id="wi-leq-minus" onclick="stepChange('wi_leq',-1)">−</button>
+                <div class="step-val" id="wi-leq-val">0</div>
+                <button class="step-btn" id="wi-leq-plus"  onclick="stepChange('wi_leq',+1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="whatif-result" id="whatifResult">
+            Adjust the steppers above to explore how improving each section affects your predicted score.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Predictions based on College Board AP World History scoring data (2023–2025). Actual scores may vary due to annual exam equating and curve adjustments.
+    <br>This tool is not affiliated with or endorsed by the College Board.
+  </footer>
+</div>
+
+<script>
+// ── CONSTANTS ──────────────────────────────────────────────────────────────
+const MAX = { mcq: 55, saq: 9, dbq: 7, leq: 6 };
+const WT  = { mcq: 60, saq: 30, dbq: 37.5, leq: 22.5 };   // weighted maxes
+const COMPOSITE_MAX = 150;
+const CUTOFFS = [
+  { score: 5, min: 112 },
+  { score: 4, min: 90  },
+  { score: 3, min: 65  },
+  { score: 2, min: 40  },
+  { score: 1, min: 0   }
+];
+const QUALIFIERS = {
+  5: 'Extremely Well Qualified',
+  4: 'Well Qualified',
+  3: 'Qualified',
+  2: 'Possibly Qualified',
+  1: 'No Recommendation'
+};
+const BADGE_COLORS = {
+  5: 'var(--score5)',
+  4: 'var(--score4)',
+  3: 'var(--score3)',
+  2: 'var(--score2)',
+  1: 'var(--score1)'
+};
+
+// State
+let base = { mcq: 0, saq: 0, dbq: 0, leq: 0 };
+let wi   = { wi_mcq: 0, wi_saq: 0, wi_dbq: 0, wi_leq: 0 };
+
+// ── HELPERS ─────────────────────────────────────────────────────────────────
+function weighted(raw, maxRaw, maxWt) {
+  return (raw / maxRaw) * maxWt;
+}
+function composite(r) {
+  return weighted(r.mcq, MAX.mcq, WT.mcq)
+       + weighted(r.saq, MAX.saq, WT.saq)
+       + weighted(r.dbq, MAX.dbq, WT.dbq)
+       + weighted(r.leq, MAX.leq, WT.leq);
+}
+function toAPScore(c) {
+  for (const { score, min } of CUTOFFS) if (c >= min) return score;
+  return 1;
+}
+function pct(raw, mx) { return Math.round((raw / mx) * 100); }
+
+// ── MINI BARS (live) ────────────────────────────────────────────────────────
+['mcq','saq','dbq','leq'].forEach(sec => {
+  const inp = document.getElementById(sec);
+  inp.addEventListener('input', () => {
+    const v = parseFloat(inp.value) || 0;
+    const p = Math.min(100, Math.max(0, (v / MAX[sec]) * 100));
+    document.getElementById(sec + '-mini').style.width = p + '%';
+    inp.classList.toggle('invalid', v < 0 || v > MAX[sec] || inp.value === '');
+    updateCalcBtn();
+  });
+  // Init
+  const v = parseFloat(inp.value) || 0;
+  document.getElementById(sec + '-mini').style.width = Math.min(100, (v / MAX[sec]) * 100) + '%';
+});
+
+function updateCalcBtn() {
+  const valid = ['mcq','saq','dbq','leq'].every(s => {
+    const inp = document.getElementById(s);
+    const v = parseFloat(inp.value);
+    return inp.value !== '' && !isNaN(v) && v >= 0 && v <= MAX[s];
+  });
+  document.getElementById('calcBtn').disabled = !valid;
+}
+updateCalcBtn();
+
+// ── INSIGHT ─────────────────────────────────────────────────────────────────
+function buildInsight(raw, comp, score) {
+  const pcts = {
+    mcq: raw.mcq / MAX.mcq,
+    saq: raw.saq / MAX.saq,
+    dbq: raw.dbq / MAX.dbq,
+    leq: raw.leq / MAX.leq
+  };
+  const labels = { mcq: 'MCQ', saq: 'SAQ', dbq: 'DBQ', leq: 'LEQ' };
+  const weakest = Object.entries(pcts).sort((a,b) => a[1]-b[1])[0][0];
+
+  if (score === 5) {
+    return `🌟 <strong>Outstanding!</strong> You've hit the top score. Your performance across all sections is exceptional.`;
+  }
+
+  const nextCut = CUTOFFS.find(c => c.score === score + 1);
+  const gap = (nextCut.min - comp).toFixed(1);
+  const weakPct = Math.round(pcts[weakest] * 100);
+  const weakLabel = labels[weakest];
+  const weakMax = MAX[weakest];
+  const weakRawNeeded = Math.ceil(gap / (WT[weakest] / weakMax));
+
+  return `You're <strong>${gap} composite points</strong> away from a <strong>${score + 1}</strong>. Your ${weakLabel} is your lowest section at ${weakPct}% — gaining <strong>~${Math.min(weakRawNeeded, weakMax - raw[weakest])} more ${weakLabel} point${weakRawNeeded !== 1 ? 's' : ''}</strong> would make the biggest difference.`;
+}
+
+// ── MAIN CALCULATE ───────────────────────────────────────────────────────────
+function calculate() {
+  base.mcq = parseFloat(document.getElementById('mcq').value);
+  base.saq = parseFloat(document.getElementById('saq').value);
+  base.dbq = parseFloat(document.getElementById('dbq').value);
+  base.leq = parseFloat(document.getElementById('leq').value);
+
+  const comp  = composite(base);
+  const score = toAPScore(comp);
+
+  // Reset what-if
+  wi = { wi_mcq: 0, wi_saq: 0, wi_dbq: 0, wi_leq: 0 };
+  ['mcq','saq','dbq','leq'].forEach(s => {
+    document.getElementById('wi-' + s + '-val').textContent = '0';
+  });
+
+  // Show panel
+  document.getElementById('placeholder').style.display = 'none';
+  const panel = document.getElementById('resultsPanel');
+  panel.classList.remove('visible');
+  void panel.offsetWidth;
+  panel.classList.add('visible');
+
+  // Badge
+  const badge = document.getElementById('scoreBadge');
+  badge.textContent = score;
+  badge.style.background = BADGE_COLORS[score];
+  badge.style.setProperty('color', 'white');
+  document.getElementById('scoreQualifier').textContent = QUALIFIERS[score];
+
+  // Composite
+  document.getElementById('compositeDisplay').textContent = comp.toFixed(1);
+
+  // Bars
+  const mcqW = weighted(base.mcq, MAX.mcq, WT.mcq);
+  const saqW = weighted(base.saq, MAX.saq, WT.saq);
+  const dbqW = weighted(base.dbq, MAX.dbq, WT.dbq);
+  const leqW = weighted(base.leq, MAX.leq, WT.leq);
+
+  setTimeout(() => {
+    document.getElementById('mcq-bar').style.width = ((mcqW / WT.mcq) * 100) + '%';
+    document.getElementById('saq-bar').style.width = ((saqW / WT.saq) * 100) + '%';
+    document.getElementById('dbq-bar').style.width = ((dbqW / WT.dbq) * 100) + '%';
+    document.getElementById('leq-bar').style.width = ((leqW / WT.leq) * 100) + '%';
+  }, 50);
+
+  document.getElementById('mcq-bar-val').textContent = `${base.mcq}/55 → ${mcqW.toFixed(1)} pts (${pct(base.mcq,55)}%)`;
+  document.getElementById('saq-bar-val').textContent = `${base.saq}/9 → ${saqW.toFixed(1)} pts (${pct(base.saq,9)}%)`;
+  document.getElementById('dbq-bar-val').textContent = `${base.dbq}/7 → ${dbqW.toFixed(1)} pts (${pct(base.dbq,7)}%)`;
+  document.getElementById('leq-bar-val').textContent = `${base.leq}/6 → ${leqW.toFixed(1)} pts (${pct(base.leq,6)}%)`;
+
+  // Insight
+  document.getElementById('insightBox').innerHTML = buildInsight(base, comp, score);
+
+  // What-if step limits
+  updateStepperLimits();
+  updateWhatIf();
+}
+
+// ── STEPPERS ─────────────────────────────────────────────────────────────────
+function updateStepperLimits() {
+  const maxAdd = {
+    wi_mcq: MAX.mcq - base.mcq,
+    wi_saq: MAX.saq - base.saq,
+    wi_dbq: MAX.dbq - base.dbq,
+    wi_leq: MAX.leq - base.leq
+  };
+  ['mcq','saq','dbq','leq'].forEach(s => {
+    const key = 'wi_' + s;
+    document.getElementById('wi-' + s + '-minus').disabled = wi[key] <= 0;
+    document.getElementById('wi-' + s + '-plus').disabled  = wi[key] >= maxAdd[key];
+  });
+}
+
+function stepChange(key, delta) {
+  const sec = key.replace('wi_', '');
+  const maxAdd = MAX[sec] - base[sec];
+  wi[key] = Math.max(0, Math.min(maxAdd, wi[key] + delta));
+  document.getElementById('wi-' + sec + '-val').textContent = wi[key];
+  updateStepperLimits();
+  updateWhatIf();
+}
+
+function updateWhatIf() {
+  const hyp = {
+    mcq: base.mcq + wi.wi_mcq,
+    saq: base.saq + wi.wi_saq,
+    dbq: base.dbq + wi.wi_dbq,
+    leq: base.leq + wi.wi_leq
+  };
+  const hypComp  = composite(hyp);
+  const hypScore = toAPScore(hypComp);
+  const baseScore = toAPScore(composite(base));
+
+  const total = wi.wi_mcq + wi.wi_saq + wi.wi_dbq + wi.wi_leq;
+  if (total === 0) {
+    document.getElementById('whatifResult').innerHTML =
+      'Adjust the steppers above to explore how improving each section affects your predicted score.';
+    return;
+  }
+
+  const diff = (hypComp - composite(base)).toFixed(1);
+  const arrow = hypScore > baseScore ? '📈' : (hypScore < baseScore ? '📉' : '→');
+  const change = hypScore !== baseScore
+    ? `<strong>your score changes from ${baseScore} to ${hypScore}</strong>`
+    : `your score remains a <strong>${baseScore}</strong>`;
+
+  document.getElementById('whatifResult').innerHTML =
+    `${arrow} With +${wi.wi_mcq} MCQ, +${wi.wi_saq} SAQ, +${wi.wi_dbq} DBQ, +${wi.wi_leq} LEQ — composite becomes <strong>${hypComp.toFixed(1)}</strong> (+${diff}), and ${change}.`;
+}
+
+// ── AUTO-CALCULATE ON LOAD ────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => calculate(), 200);
+});
+</script>
+</body>
+</html>
