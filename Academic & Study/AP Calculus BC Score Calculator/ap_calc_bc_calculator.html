@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AP Calculus BC Score Calculator (2025–2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2EC;
+    --card: #FDFCF9;
+    --border: #E0DCD4;
+    --text: #1A1714;
+    --muted: #7A7570;
+    --accent: #2B5F8E;
+    --accent-light: #D9E8F5;
+    --score-5: #1A7A4A;
+    --score-4: #2E8B57;
+    --score-3: #B07D00;
+    --score-2: #C45E00;
+    --score-1: #B83232;
+    --radius: 14px;
+    --shadow: 0 2px 16px rgba(26,23,20,0.08);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+
+  /* HEADER */
+  .site-header {
+    max-width: 1060px;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 20px;
+  }
+  .site-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    color: var(--text);
+    line-height: 1.15;
+  }
+  .site-header .pill {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 99px;
+  }
+  .site-header p {
+    width: 100%;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 2px;
+  }
+
+  /* LAYOUT */
+  .layout {
+    max-width: 1060px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* INPUTS */
+  .field-group { margin-bottom: 22px; }
+  .field-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .field-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+  input[type=number] {
+    width: 100%;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 1rem;
+    color: var(--text);
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    -moz-appearance: textfield;
+  }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type=number]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(43,95,142,.15);
+  }
+  input[type=number].invalid { border-color: var(--score-1); }
+
+  .frq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .frq-field label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .frq-total {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--accent);
+    text-align: right;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  /* TOOLTIP */
+  .tooltip-wrap { position: relative; display: inline-flex; align-items: center; }
+  .tip-icon {
+    width: 16px; height: 16px;
+    background: var(--border);
+    border-radius: 50%;
+    font-size: 10px;
+    color: var(--muted);
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: help;
+    flex-shrink: 0;
+    font-weight: 700;
+    user-select: none;
+  }
+  .tip-icon:hover + .tip-box, .tip-icon:focus + .tip-box { opacity: 1; pointer-events: auto; }
+  .tip-box {
+    position: absolute;
+    left: 24px; top: -4px;
+    background: var(--text);
+    color: #fff;
+    font-size: 0.74rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    width: 210px;
+    line-height: 1.5;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s;
+    z-index: 10;
+    font-weight: 400;
+  }
+
+  /* BUTTON */
+  .btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .1s, opacity .2s;
+    letter-spacing: .01em;
+  }
+  .btn:hover:not(:disabled) { background: #234f77; }
+  .btn:active:not(:disabled) { transform: scale(.98); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+  /* RESULTS PLACEHOLDER */
+  .results-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    gap: 12px;
+    color: var(--muted);
+  }
+  .placeholder-icon { font-size: 2.5rem; opacity: .5; }
+  .placeholder-text { font-size: 0.88rem; max-width: 220px; line-height: 1.6; }
+
+  /* RESULTS PANEL */
+  .results-panel { display: none; flex-direction: column; gap: 22px; }
+  .results-panel.visible { display: flex; }
+
+  /* SCORE BADGES */
+  .badges-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .badge {
+    flex: 1;
+    min-width: 120px;
+    max-width: 160px;
+    border-radius: 12px;
+    padding: 18px 12px 14px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all .35s ease;
+  }
+  .badge .badge-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.2rem;
+    line-height: 1;
+    font-weight: 400;
+    transition: all .3s;
+  }
+  .badge .badge-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-top: 4px;
+    opacity: .7;
+  }
+  .badge .badge-qual {
+    font-size: 0.7rem;
+    margin-top: 6px;
+    font-style: italic;
+    opacity: .85;
+  }
+
+  .badge.s5 { background: #E8F7EE; border-color: #1A7A4A; color: #1A7A4A; }
+  .badge.s4 { background: #EBF7EE; border-color: #2E8B57; color: #2E8B57; }
+  .badge.s3 { background: #FDF6DC; border-color: #B07D00; color: #9A6B00; }
+  .badge.s2 { background: #FEF0E4; border-color: #C45E00; color: #B05000; }
+  .badge.s1 { background: #FDEDED; border-color: #B83232; color: #9E2222; }
+
+  /* COMPOSITE */
+  .composite-line {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .composite-line strong { color: var(--text); font-size: 1.05rem; }
+
+  /* BARS */
+  .bars { display: flex; flex-direction: column; gap: 12px; }
+  .bar-item { }
+  .bar-header { display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 5px; }
+  .bar-name { font-weight: 600; color: var(--text); }
+  .bar-val { font-family: 'DM Mono', monospace; color: var(--muted); }
+  .bar-track {
+    height: 8px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+    width: 0%;
+    transition: width .6s cubic-bezier(.22,.68,0,1.2);
+  }
+  .bar-fill.frq { background: #5B8FB9; }
+
+  /* INSIGHT */
+  .insight-box {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    line-height: 1.6;
+  }
+  .insight-box strong { font-weight: 700; }
+
+  /* WHAT IF */
+  .whatif { }
+  .whatif-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stepper-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 10px;
+  }
+  .stepper-label { font-size: 0.8rem; color: var(--text); flex: 1; }
+  .stepper-controls { display: flex; align-items: center; gap: 10px; }
+  .step-btn {
+    width: 28px; height: 28px;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text);
+    transition: background .15s;
+    font-weight: 600;
+  }
+  .step-btn:hover { background: var(--border); }
+  .step-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    min-width: 28px;
+    text-align: center;
+    color: var(--accent);
+  }
+  .whatif-result {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: center;
+    transition: all .2s;
+  }
+  .whatif-result strong { color: var(--text); font-size: 0.95rem; }
+
+  /* SCALE REFERENCE */
+  .scale-ref {
+    margin-top: 4px;
+    border-top: 1.5px solid var(--border);
+    padding-top: 16px;
+  }
+  .scale-ref-title { font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 8px; }
+  .scale-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  .scale-table th { color: var(--muted); font-weight: 600; text-align: left; padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .scale-table td { padding: 4px 0; border-bottom: 1px solid rgba(224,220,212,.4); }
+  .scale-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* FOOTER */
+  footer {
+    max-width: 1060px;
+    margin: 36px auto 0;
+    font-size: 0.73rem;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .results-panel.visible { animation: fadeUp .35s ease both; }
+
+  .badge { animation: none; }
+  .badge.just-updated {
+    animation: pulse .3s ease;
+  }
+  @keyframes pulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>AP Calculus BC Score Calculator</h1>
+  <span class="pill">2025–2026</span>
+  <p>Predict your BC score and AB subscore using official weighting formulas.</p>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT: INPUTS -->
+  <div class="card">
+    <div class="card-title">📝 Enter Your Scores</div>
+
+    <!-- MCQ -->
+    <div class="field-group">
+      <div class="field-label">
+        MCQ Score (out of 45)
+        <span class="tooltip-wrap">
+          <span class="tip-icon" tabindex="0">i</span>
+          <span class="tip-box">Part A (no calc): 30 questions. Part B (calc allowed): 15 questions. Total correct answers out of 45 counts.</span>
+        </span>
+      </div>
+      <p class="field-desc">Enter number of correct answers. No penalty for guessing.</p>
+      <input type="number" id="mcq" min="0" max="45" placeholder="0–45" value="32" />
+    </div>
+
+    <!-- FRQ -->
+    <div class="field-group">
+      <div class="field-label">
+        FRQ Scores (each 0–9)
+        <span class="tooltip-wrap">
+          <span class="tip-icon" tabindex="0">i</span>
+          <span class="tip-box">Use official College Board rubrics to self-score. Partial credit counts. Each question is worth 9 points.</span>
+        </span>
+      </div>
+      <p class="field-desc">Enter points earned for each problem (0–9). Partial credit counts.</p>
+      <div class="frq-grid">
+        <div class="frq-field"><label>FRQ 1 (Calc ✓)</label><input type="number" class="frq" id="f1" min="0" max="9" placeholder="0–9" value="8" /></div>
+        <div class="frq-field"><label>FRQ 2 (Calc ✓)</label><input type="number" class="frq" id="f2" min="0" max="9" placeholder="0–9" value="7" /></div>
+        <div class="frq-field"><label>FRQ 3 (No calc)</label><input type="number" class="frq" id="f3" min="0" max="9" placeholder="0–9" value="8" /></div>
+        <div class="frq-field"><label>FRQ 4 (No calc)</label><input type="number" class="frq" id="f4" min="0" max="9" placeholder="0–9" value="6" /></div>
+        <div class="frq-field"><label>FRQ 5 (No calc)</label><input type="number" class="frq" id="f5" min="0" max="9" placeholder="0–9" value="7" /></div>
+        <div class="frq-field"><label>FRQ 6 (No calc)</label><input type="number" class="frq" id="f6" min="0" max="9" placeholder="0–9" value="6" /></div>
+      </div>
+      <div class="frq-total" id="frq-total">Total FRQ Raw: 42 / 54</div>
+    </div>
+
+    <button class="btn" id="calc-btn" onclick="calculate()">Calculate My Score</button>
+  </div>
+
+  <!-- RIGHT: RESULTS -->
+  <div class="card">
+    <div class="card-title">📊 Your Predicted Scores</div>
+
+    <div class="results-placeholder" id="placeholder">
+      <div class="placeholder-icon">🎯</div>
+      <div class="placeholder-text">Fill in your MCQ and FRQ scores, then tap <strong>Calculate</strong> to see your predicted AP score.</div>
+    </div>
+
+    <div class="results-panel" id="results">
+
+      <!-- BADGES -->
+      <div class="badges-row">
+        <div class="badge" id="bc-badge">
+          <div class="badge-num" id="bc-num">—</div>
+          <div class="badge-label">Predicted BC Score</div>
+          <div class="badge-qual" id="bc-qual"></div>
+        </div>
+        <div class="badge" id="ab-badge">
+          <div class="badge-num" id="ab-num">—</div>
+          <div class="badge-label">AB Subscore
+            <span class="tooltip-wrap" style="margin-left:4px;">
+              <span class="tip-icon" tabindex="0" style="width:13px;height:13px;font-size:8px;">i</span>
+              <span class="tip-box" style="left:auto;right:0;top:20px;">Estimate based on AB-topic questions. May differ slightly from official results.</span>
+            </span>
+          </div>
+          <div class="badge-qual" id="ab-qual"></div>
+        </div>
+      </div>
+
+      <!-- COMPOSITE -->
+      <div class="composite-line">Composite Score: <strong id="composite-val">—</strong> / 108</div>
+
+      <!-- BARS -->
+      <div class="bars">
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">MCQ Contribution</span>
+            <span class="bar-val" id="mcq-bar-val">— / 54</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="mcq-bar"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-header">
+            <span class="bar-name">FRQ Contribution</span>
+            <span class="bar-val" id="frq-bar-val">— / 54</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill frq" id="frq-bar"></div></div>
+        </div>
+      </div>
+
+      <!-- INSIGHT -->
+      <div class="insight-box" id="insight-box"></div>
+
+      <!-- WHAT IF -->
+      <div class="whatif">
+        <div class="whatif-title">✨ What if I do better?</div>
+        <div class="stepper-row">
+          <div class="stepper">
+            <span class="stepper-label">Additional MCQ correct answers</span>
+            <div class="stepper-controls">
+              <button class="step-btn" onclick="stepChange('wi_mcq', -1)">−</button>
+              <span class="step-val" id="wi_mcq-val">0</span>
+              <button class="step-btn" onclick="stepChange('wi_mcq', 1)">+</button>
+            </div>
+          </div>
+          <div class="stepper">
+            <span class="stepper-label">Additional FRQ points</span>
+            <div class="stepper-controls">
+              <button class="step-btn" onclick="stepChange('wi_frq', -1)">−</button>
+              <span class="step-val" id="wi_frq-val">0</span>
+              <button class="step-btn" onclick="stepChange('wi_frq', 1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="whatif-result" id="whatif-result">Adjust the sliders above to explore score changes.</div>
+      </div>
+
+      <!-- SCALE REFERENCE -->
+      <div class="scale-ref">
+        <div class="scale-ref-title">Score Scale Reference (BC)</div>
+        <table class="scale-table">
+          <tr><th>Score</th><th>Composite Range</th><th>Qualification</th></tr>
+          <tr><td><span class="scale-dot" style="background:#1A7A4A"></span>5</td><td>65–108</td><td>Extremely Well Qualified</td></tr>
+          <tr><td><span class="scale-dot" style="background:#2E8B57"></span>4</td><td>54–64</td><td>Well Qualified</td></tr>
+          <tr><td><span class="scale-dot" style="background:#B07D00"></span>3</td><td>40–53</td><td>Qualified</td></tr>
+          <tr><td><span class="scale-dot" style="background:#C45E00"></span>2</td><td>27–39</td><td>Possibly Qualified</td></tr>
+          <tr><td><span class="scale-dot" style="background:#B83232"></span>1</td><td>0–26</td><td>No Recommendation</td></tr>
+        </table>
+      </div>
+
+    </div><!-- /results-panel -->
+  </div><!-- /right card -->
+</div><!-- /layout -->
+
+<footer>
+  Predictions based on College Board scoring data (2023–2025). Actual scores may vary due to exam equating.<br>
+  AB Subscore is an approximation using historical cutoff estimates. Not affiliated with College Board.
+</footer>
+
+<script>
+  // ─── CONSTANTS ───────────────────────────────────────────────────────────────
+  const BC_CUTOFFS  = [{score:5,min:65},{score:4,min:54},{score:3,min:40},{score:2,min:27},{score:1,min:0}];
+  const AB_CUTOFFS  = [{score:5,min:60},{score:4,min:48},{score:3,min:36},{score:2,min:24},{score:1,min:0}];
+  const QUALIFIERS  = {5:"Extremely Well Qualified",4:"Well Qualified",3:"Qualified",2:"Possibly Qualified",1:"No Recommendation"};
+  const SCORE_CLASS = {5:"s5",4:"s4",3:"s3",2:"s2",1:"s1"};
+
+  let state = { mcq:32, frq:[8,7,8,6,7,6], wi_mcq:0, wi_frq:0, calculated:false };
+
+  // ─── HELPERS ─────────────────────────────────────────────────────────────────
+  function mapScore(composite, cutoffs) {
+    for (const c of cutoffs) if (composite >= c.min) return c.score;
+    return 1;
+  }
+  function getComposite(mcq, frqTotal) {
+    return mcq * 1.2 + frqTotal;
+  }
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  // ─── UPDATE FRQ TOTAL DISPLAY ────────────────────────────────────────────────
+  function updateFrqTotal() {
+    const vals = getFrqVals();
+    const total = vals.reduce((a,b)=>a+b,0);
+    document.getElementById('frq-total').textContent = `Total FRQ Raw: ${total} / 54`;
+    return total;
+  }
+  function getFrqVals() {
+    return [1,2,3,4,5,6].map(i => {
+      const el = document.getElementById('f'+i);
+      const v = parseFloat(el.value);
+      return (!isNaN(v) && v>=0 && v<=9) ? v : null;
+    });
+  }
+
+  // ─── VALIDATE & ENABLE BUTTON ────────────────────────────────────────────────
+  function validateInputs() {
+    const mcqEl = document.getElementById('mcq');
+    const mcqV  = parseFloat(mcqEl.value);
+    const mcqOk = !isNaN(mcqV) && mcqV>=0 && mcqV<=45;
+    mcqEl.classList.toggle('invalid', mcqEl.value!=='' && !mcqOk);
+
+    const frqVals = getFrqVals();
+    const allOk = mcqOk && frqVals.every(v=>v!==null);
+    document.getElementById('calc-btn').disabled = !allOk;
+    return allOk;
+  }
+
+  // ─── MAIN CALCULATE ──────────────────────────────────────────────────────────
+  function calculate() {
+    if (!validateInputs()) return;
+    const mcq = parseFloat(document.getElementById('mcq').value);
+    const frq = getFrqVals();
+    const frqTotal = frq.reduce((a,b)=>a+b,0);
+    state = { mcq, frq, wi_mcq:0, wi_frq:0, calculated:true };
+
+    const mcqW     = mcq * 1.2;
+    const composite = mcqW + frqTotal;
+    const bcScore  = mapScore(composite, BC_CUTOFFS);
+    const abScore  = mapScore(composite, AB_CUTOFFS);
+
+    // Show panel
+    document.getElementById('placeholder').style.display = 'none';
+    const panel = document.getElementById('results');
+    panel.classList.add('visible');
+
+    // Badges
+    setBadge('bc-badge','bc-num','bc-qual', bcScore);
+    setBadge('ab-badge','ab-num','ab-qual', abScore);
+
+    // Composite
+    document.getElementById('composite-val').textContent = composite.toFixed(1);
+
+    // Bars
+    setTimeout(()=>{
+      document.getElementById('mcq-bar').style.width = (mcqW/54*100)+'%';
+      document.getElementById('frq-bar').style.width = (frqTotal/54*100)+'%';
+    },50);
+    document.getElementById('mcq-bar-val').textContent = `${mcqW.toFixed(1)} / 54`;
+    document.getElementById('frq-bar-val').textContent = `${frqTotal} / 54`;
+
+    // Insight
+    generateInsight(composite, bcScore, mcqW, frqTotal);
+
+    // Reset steppers
+    document.getElementById('wi_mcq-val').textContent = '0';
+    document.getElementById('wi_frq-val').textContent = '0';
+    document.getElementById('whatif-result').innerHTML = 'Adjust the controls above to explore score changes.';
+  }
+
+  function setBadge(badgeId, numId, qualId, score) {
+    const el = document.getElementById(badgeId);
+    el.className = 'badge ' + SCORE_CLASS[score];
+    document.getElementById(numId).textContent = score;
+    document.getElementById(qualId).textContent = QUALIFIERS[score];
+    el.classList.add('just-updated');
+    setTimeout(()=>el.classList.remove('just-updated'), 400);
+  }
+
+  function generateInsight(composite, bcScore, mcqW, frqTotal) {
+    const box = document.getElementById('insight-box');
+    if (bcScore === 5) {
+      box.innerHTML = `🌟 Excellent! You're projected for a <strong>5</strong> — top performance on both sections. Keep your study momentum going!`;
+      return;
+    }
+    const next = bcScore + 1;
+    const nextCutoff = BC_CUTOFFS.find(c=>c.score===next).min;
+    const gap = Math.ceil(nextCutoff - composite);
+    const frqGap = gap;
+    const mcqGap = Math.ceil(gap / 1.2);
+    box.innerHTML = `📈 You're <strong>${gap} composite points</strong> away from a <strong>${next}</strong>. That's roughly <strong>+${frqGap} FRQ points</strong> or <strong>+${mcqGap} more MCQ correct</strong> to get there.`;
+  }
+
+  // ─── WHAT-IF STEPPERS ────────────────────────────────────────────────────────
+  function stepChange(key, delta) {
+    if (!state.calculated) return;
+    const mcqMax = 45 - state.mcq;
+    const frqMax = 54 - state.frq.reduce((a,b)=>a+b,0);
+
+    if (key === 'wi_mcq') {
+      state.wi_mcq = clamp(state.wi_mcq + delta, 0, mcqMax);
+      document.getElementById('wi_mcq-val').textContent = state.wi_mcq;
+    } else {
+      state.wi_frq = clamp(state.wi_frq + delta, 0, frqMax);
+      document.getElementById('wi_frq-val').textContent = state.wi_frq;
+    }
+    updateWhatIf();
+  }
+
+  function updateWhatIf() {
+    const hypMCQ  = (state.mcq + state.wi_mcq) * 1.2;
+    const hypFRQ  = state.frq.reduce((a,b)=>a+b,0) + state.wi_frq;
+    const hypComp = hypMCQ + hypFRQ;
+    const hypBC   = mapScore(hypComp, BC_CUTOFFS);
+    const hypAB   = mapScore(hypComp, AB_CUTOFFS);
+    const cur     = mapScore(state.mcq * 1.2 + state.frq.reduce((a,b)=>a+b,0), BC_CUTOFFS);
+
+    const arrow = hypBC > cur ? '⬆️' : hypBC < cur ? '⬇️' : '↔️';
+    document.getElementById('whatif-result').innerHTML =
+      `If you add <strong>+${state.wi_mcq} MCQ</strong> & <strong>+${state.wi_frq} FRQ pts</strong> → composite <strong>${hypComp.toFixed(1)}</strong> → BC <strong>${hypBC}</strong> ${arrow}, AB Subscore <strong>${hypAB}</strong>`;
+  }
+
+  // ─── EVENT LISTENERS ─────────────────────────────────────────────────────────
+  document.getElementById('mcq').addEventListener('input', () => { validateInputs(); });
+  document.querySelectorAll('.frq').forEach(el => {
+    el.addEventListener('input', () => { updateFrqTotal(); validateInputs(); });
+  });
+
+  // Init
+  updateFrqTotal();
+  validateInputs();
+  calculate(); // show default result on load
+</script>
+</body>
+</html>
