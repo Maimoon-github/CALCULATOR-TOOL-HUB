@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-midnight-shale text-white font-sans antialiased;
+  }
+
+  /* custom scrollbar for data‑specialist vibe */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1E2633;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3B4859;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3258A6;
+  }
+}
+
+@layer components {
+  .data-card {
+    @apply bg-slate-blue/80 backdrop-blur-sm rounded-lg border border-white/5 p-6 shadow-xl;
+  }
+
+  .stat-value {
+    @apply font-mono text-gold-fleck font-medium;
+  }
+
+  .input-field {
+    @apply w-full bg-midnight-shale/60 border border-white/10 rounded px-4 py-2 font-mono text-white focus:outline-none focus:ring-2 focus:ring-gold-fleck/50 transition-all;
+  }
+
+  .btn-primary {
+    @apply bg-lapis-deep hover:bg-lapis-medium text-white font-medium px-4 py-2 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-gold-fleck/50;
+  }
+
+  .btn-accent {
+    @apply bg-gold-fleck hover:bg-gold-fleck/90 text-midnight-shale font-medium px-4 py-2 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-gold-fleck/50;
+  }
+}
