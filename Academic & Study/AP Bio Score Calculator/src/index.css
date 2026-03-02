@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-lapis-deep: #0D33A6;
+    --color-lapis-medium: #3258A6;
+    --color-midnight-shale: #141A26;
+    --color-slate-blue: #3B4859;
+    --color-gold-fleck: #D9AE89;
+  }
+
+  body {
+    @apply bg-midnight-shale text-white font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1E2633;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3B4859;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3258A6;
+  }
+}
+
+@layer components {
+  .data-card {
+    @apply bg-slate-blue/80 backdrop-blur-sm rounded-xl border border-white/5 p-6 md:p-8 shadow-xl;
+  }
+
+  .input-field {
+    @apply bg-midnight-shale/60 border border-white/10 rounded-lg px-4 py-2 font-mono text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gold-fleck/50 transition-all;
+  }
+
+  .btn-primary {
+    @apply bg-lapis-deep hover:bg-lapis-medium text-white font-medium px-4 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gold-fleck/50;
+  }
+
+  .btn-accent {
+    @apply bg-gold-fleck hover:bg-gold-fleck/90 text-midnight-shale font-medium px-4 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gold-fleck/50;
+  }
+}
