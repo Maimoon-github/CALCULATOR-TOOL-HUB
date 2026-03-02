@@ -4,29 +4,34 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AP Bio Score Calculator 2025–2026</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:        #f4f6f0;
-    --surface:   #ffffff;
-    --border:    #dde3d6;
-    --text-main: #1c2b1a;
-    --text-sub:  #6b7c69;
-    --accent:    #3a7d44;
-    --accent-lt: #e8f5eb;
+    --bg:        #141A26;
+    --surface:   #3B4859;
+    --surface-2: #1E2633;
+    --border:    rgba(255,255,255,0.1);
+    --border-md: #4A5568;
+    --text-main: #FFFFFF;
+    --text-sub:  #B0B0B0;
+    --accent:    #0D33A6;
+    --accent-md: #3258A6;
+    --gold:      #D9AE89;
+    --gold-dim:  rgba(217,174,137,0.12);
     --s5:        #2d8a4e;
     --s4:        #5bac70;
     --s3:        #e8a030;
     --s2:        #e06030;
     --s1:        #c0392b;
-    --radius:    14px;
-    --shadow:    0 4px 24px rgba(0,0,0,.08);
+    --radius:    6px;
+    --shadow:    0 4px 32px rgba(0,0,0,.35);
+    --mono:      'JetBrains Mono', 'Roboto Mono', monospace;
   }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text-main);
     min-height: 100vh;
@@ -36,24 +41,46 @@
 
   /* ── HEADER ─────────────────────────────────────────── */
   header {
-    background: var(--accent);
+    background: #0a1020;
+    border-bottom: 2px solid var(--accent);
     color: #fff;
     padding: 28px 40px 24px;
     display: flex;
     align-items: flex-end;
     gap: 20px;
+    position: relative;
   }
-  header .leaf { font-size: 2.4rem; line-height: 1; }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 40px;
+    width: 80px;
+    height: 2px;
+    background: var(--gold);
+  }
+  header .leaf { font-size: 2.2rem; line-height: 1; }
   header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
     line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  header h1 em {
+    font-style: normal;
+    font-weight: 400;
+    opacity: 0.55;
+    font-size: 0.7em;
+    font-family: var(--mono);
+    letter-spacing: 0.03em;
   }
   header p {
-    font-size: .82rem;
-    opacity: .82;
-    margin-top: 4px;
-    letter-spacing: .02em;
+    font-size: .8rem;
+    opacity: .6;
+    margin-top: 5px;
+    letter-spacing: .03em;
+    color: var(--text-sub);
   }
 
   /* ── MAIN GRID ───────────────────────────────────────── */
@@ -77,48 +104,54 @@
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
     border-radius: var(--radius);
     padding: 26px 24px;
     box-shadow: var(--shadow);
+    position: relative;
   }
   .card-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.05rem;
-    color: var(--accent);
-    margin-bottom: 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  .card-title span { font-size: 1.1rem; }
+  .card-title span { font-size: 1rem; }
 
   /* ── INPUTS ─────────────────────────────────────────── */
   .field-group { margin-bottom: 22px; }
   .field-label {
     display: block;
-    font-size: .78rem;
+    font-size: .72rem;
     font-weight: 600;
-    letter-spacing: .06em;
+    letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--text-sub);
     margin-bottom: 6px;
   }
   .field-desc {
-    font-size: .78rem;
+    font-size: .76rem;
     color: var(--text-sub);
     margin-bottom: 10px;
-    line-height: 1.5;
+    line-height: 1.6;
+    opacity: 0.8;
   }
 
   input[type=number] {
     width: 100%;
     padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
+    border: 1px solid var(--border-md);
+    border-radius: 4px;
+    font-family: var(--mono);
     font-size: .95rem;
     color: var(--text-main);
-    background: var(--bg);
+    background: var(--surface-2);
     transition: border .18s, box-shadow .18s;
     -moz-appearance: textfield;
   }
@@ -126,9 +159,9 @@
   input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
   input[type=number]:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(58,125,68,.15);
-    background: #fff;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(217,174,137,.15);
+    background: #252f40;
   }
   input.error { border-color: var(--s1); }
 
@@ -138,46 +171,61 @@
     gap: 10px;
   }
   .frq-item label {
-    font-size: .75rem;
+    font-size: .7rem;
     font-weight: 600;
     color: var(--text-sub);
     display: flex;
     justify-content: space-between;
     margin-bottom: 4px;
     align-items: center;
+    letter-spacing: .04em;
+    text-transform: uppercase;
   }
-  .frq-item label .max { opacity: .6; font-weight: 400; }
+  .frq-item label .max {
+    opacity: .5;
+    font-weight: 400;
+    font-family: var(--mono);
+  }
 
   .frq-total {
     margin-top: 12px;
-    background: var(--accent-lt);
-    border-radius: 8px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(217,174,137,0.2);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
     padding: 10px 14px;
-    font-size: .84rem;
+    font-size: .8rem;
     font-weight: 600;
-    color: var(--accent);
+    color: var(--gold);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    letter-spacing: .04em;
+    text-transform: uppercase;
   }
-  .frq-total .val { font-size: 1.15rem; }
+  .frq-total .val {
+    font-size: 1.1rem;
+    font-family: var(--mono);
+    font-weight: 500;
+  }
 
   /* tooltip */
   .tooltip-wrap { position: relative; display: inline-flex; align-items: center; margin-left: 5px; cursor: help; }
-  .tooltip-icon { font-size: .78rem; color: var(--text-sub); }
+  .tooltip-icon { font-size: .76rem; color: var(--text-sub); }
   .tooltip-box {
     display: none;
     position: absolute;
     bottom: 125%;
     left: 50%;
     transform: translateX(-50%);
-    background: #1c2b1a;
+    background: #0a1020;
     color: #fff;
-    font-size: .73rem;
-    padding: 7px 11px;
-    border-radius: 7px;
+    font-size: .71rem;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-md);
     width: 210px;
-    line-height: 1.5;
+    line-height: 1.6;
     z-index: 10;
     pointer-events: none;
   }
@@ -186,22 +234,27 @@
   /* ── BUTTON ─────────────────────────────────────────── */
   .calc-btn {
     width: 100%;
-    padding: 14px;
-    background: var(--accent);
-    color: #fff;
+    padding: 13px;
+    background: var(--gold);
+    color: #141A26;
     border: none;
-    border-radius: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: .03em;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: background .18s, transform .12s, opacity .18s;
+    transition: background .18s, transform .12s, opacity .18s, box-shadow .18s;
     margin-top: 4px;
   }
-  .calc-btn:hover:not(:disabled) { background: #2d6636; transform: translateY(-1px); }
+  .calc-btn:hover:not(:disabled) {
+    background: #e8c4a0;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(217,174,137,.25);
+  }
   .calc-btn:active:not(:disabled) { transform: translateY(0); }
-  .calc-btn:disabled { opacity: .45; cursor: not-allowed; }
+  .calc-btn:disabled { opacity: .3; cursor: not-allowed; background: var(--border-md); color: var(--text-sub); }
 
   /* ── RESULTS ─────────────────────────────────────────── */
   .results-placeholder {
@@ -214,8 +267,8 @@
     gap: 10px;
     color: var(--text-sub);
   }
-  .results-placeholder .icon { font-size: 2.5rem; opacity: .4; }
-  .results-placeholder p { font-size: .86rem; max-width: 200px; line-height: 1.6; }
+  .results-placeholder .icon { font-size: 2.2rem; opacity: .25; }
+  .results-placeholder p { font-size: .82rem; max-width: 200px; line-height: 1.7; opacity: .7; }
 
   .results-body { display: none; animation: fadeIn .35s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -225,20 +278,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
   }
   .score-badge {
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 3.6rem;
+    font-family: var(--mono);
+    font-size: 3.2rem;
+    font-weight: 500;
     color: #fff;
     transition: background .4s;
-    box-shadow: 0 6px 28px rgba(0,0,0,.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
     position: relative;
   }
   .score-badge::after {
@@ -246,27 +302,29 @@
     position: absolute;
     inset: -5px;
     border-radius: 50%;
-    border: 2.5px solid currentColor;
-    opacity: .25;
+    border: 1.5px solid var(--gold);
+    opacity: .35;
   }
   .score-label {
-    font-size: .72rem;
+    font-size: .68rem;
     font-weight: 600;
-    letter-spacing: .1em;
+    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--text-sub);
-    margin-top: 10px;
+    margin-top: 12px;
   }
   .score-qualifier {
-    font-size: .92rem;
+    font-size: .88rem;
     font-weight: 600;
-    margin-top: 3px;
+    margin-top: 4px;
     color: var(--text-main);
+    letter-spacing: .01em;
   }
   .composite-line {
-    font-size: .82rem;
+    font-size: .78rem;
     color: var(--text-sub);
-    margin-top: 2px;
+    margin-top: 3px;
+    font-family: var(--mono);
   }
 
   /* progress bars */
@@ -275,44 +333,46 @@
   .bar-header {
     display: flex;
     justify-content: space-between;
-    font-size: .78rem;
-    margin-bottom: 5px;
+    font-size: .74rem;
+    margin-bottom: 6px;
   }
-  .bar-header .name { font-weight: 600; }
-  .bar-header .pct { color: var(--text-sub); }
+  .bar-header .name { font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--text-sub); }
+  .bar-header .pct { color: var(--text-sub); font-family: var(--mono); font-size: .72rem; }
   .bar-track {
-    height: 9px;
-    background: var(--border);
+    height: 6px;
+    background: var(--surface-2);
     border-radius: 99px;
     overflow: hidden;
+    border: 1px solid var(--border);
   }
   .bar-fill {
     height: 100%;
     border-radius: 99px;
-    background: var(--accent);
+    background: var(--accent-md);
     transition: width .5s cubic-bezier(.4,0,.2,1);
   }
-  .bar-fill.frq { background: #5a9e7a; }
+  .bar-fill.frq { background: var(--gold); }
 
   /* insight box */
   .insight-box {
-    background: var(--accent-lt);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0;
+    background: rgba(13,51,166,0.2);
+    border-left: 3px solid var(--accent-md);
+    border-radius: 0 4px 4px 0;
     padding: 12px 14px;
-    font-size: .83rem;
-    line-height: 1.6;
-    color: var(--text-main);
-    margin-bottom: 18px;
+    font-size: .8rem;
+    line-height: 1.7;
+    color: var(--text-sub);
+    margin-bottom: 20px;
   }
+  .insight-box strong { color: var(--text-main); }
 
   /* what if */
   .whatif-title {
-    font-size: .78rem;
-    font-weight: 600;
-    letter-spacing: .06em;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    color: var(--text-sub);
+    color: var(--gold);
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -323,45 +383,49 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
-    font-size: .83rem;
+    font-size: .8rem;
   }
-  .whatif-row label { flex: 1; color: var(--text-sub); }
+  .whatif-row label { flex: 1; color: var(--text-sub); letter-spacing: .02em; }
   .whatif-stepper {
     display: flex;
     align-items: center;
     gap: 6px;
   }
   .step-btn {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    border: 1.5px solid var(--border);
-    background: #fff;
-    font-size: 1rem;
+    width: 26px; height: 26px;
+    border-radius: 4px;
+    border: 1px solid var(--border-md);
+    background: var(--surface-2);
+    color: var(--text-main);
+    font-size: .95rem;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: border-color .15s, background .15s;
   }
-  .step-btn:hover { border-color: var(--accent); background: var(--accent-lt); }
+  .step-btn:hover { border-color: var(--gold); background: var(--gold-dim); color: var(--gold); }
   .step-val {
-    width: 32px;
+    width: 30px;
     text-align: center;
-    font-weight: 600;
-    font-size: .9rem;
+    font-weight: 500;
+    font-size: .88rem;
+    font-family: var(--mono);
+    color: var(--text-main);
   }
   .whatif-result {
-    background: #f0faf3;
-    border-radius: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-md);
+    border-radius: 4px;
     padding: 9px 14px;
-    font-size: .82rem;
+    font-size: .78rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 4px;
   }
   .whatif-score {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-family: var(--mono);
+    font-size: 1.5rem;
+    font-weight: 500;
   }
 
   /* ── SCORE CUTOFF LEGEND ────────────────────────────── */
@@ -369,14 +433,15 @@
     grid-column: 1 / -1;
     background: var(--surface);
     border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
     border-radius: var(--radius);
     padding: 18px 24px;
     box-shadow: var(--shadow);
   }
   .legend-title {
-    font-size: .78rem;
-    font-weight: 600;
-    letter-spacing: .06em;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--text-sub);
     margin-bottom: 14px;
@@ -391,29 +456,34 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 9px 12px;
-    font-size: .8rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: .78rem;
   }
   .legend-dot {
-    width: 28px; height: 28px;
+    width: 30px; height: 30px;
     border-radius: 50%;
-    font-family: 'DM Serif Display', serif;
+    font-family: var(--mono);
     font-size: 1rem;
+    font-weight: 500;
     color: #fff;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
-  .legend-item .desc { color: var(--text-sub); font-size: .75rem; margin-top: 1px; }
+  .legend-item strong { color: var(--text-main); font-weight: 600; font-size: .78rem; }
+  .legend-item .desc { color: var(--text-sub); font-size: .71rem; margin-top: 2px; font-family: var(--mono); }
 
   /* ── FOOTER ─────────────────────────────────────────── */
   footer {
     text-align: center;
     padding: 16px 24px;
-    font-size: .73rem;
+    font-size: .7rem;
     color: var(--text-sub);
     border-top: 1px solid var(--border);
+    opacity: 0.6;
+    letter-spacing: .03em;
   }
 </style>
 </head>
@@ -422,7 +492,7 @@
 <header>
   <div class="leaf">🧬</div>
   <div>
-    <h1>AP Bio Score Calculator <em style="font-style:italic;opacity:.8;font-size:.75em">2025–2026</em></h1>
+    <h1>AP Bio Score Calculator <em>2025–2026</em></h1>
     <p>Predict your score based on official College Board weighting.</p>
   </div>
 </header>
@@ -542,7 +612,7 @@
         </div>
       </div>
       <div class="whatif-result">
-        <span id="wi-label" style="color:var(--text-sub);font-size:.82rem;">Adjusted Predicted Score</span>
+        <span id="wi-label" style="color:var(--text-sub);font-size:.78rem;">Adjusted Predicted Score</span>
         <span class="whatif-score" id="wi-score">–</span>
       </div>
     </div>
@@ -556,35 +626,35 @@
         <div class="legend-dot" style="background:var(--s5)">5</div>
         <div>
           <div><strong>Extremely Well Qualified</strong></div>
-          <div class="desc">Composite ≥ 90 &nbsp;|&nbsp; ~7–16% of students</div>
+          <div class="desc">Composite ≥ 90 · ~7–16% of students</div>
         </div>
       </div>
       <div class="legend-item">
         <div class="legend-dot" style="background:var(--s4)">4</div>
         <div>
           <div><strong>Well Qualified</strong></div>
-          <div class="desc">Composite 75–89 &nbsp;|&nbsp; Credit at most schools</div>
+          <div class="desc">Composite 75–89 · Credit at most schools</div>
         </div>
       </div>
       <div class="legend-item">
         <div class="legend-dot" style="background:var(--s3)">3</div>
         <div>
           <div><strong>Qualified</strong></div>
-          <div class="desc">Composite 60–74 &nbsp;|&nbsp; Minimum passing level</div>
+          <div class="desc">Composite 60–74 · Minimum passing level</div>
         </div>
       </div>
       <div class="legend-item">
         <div class="legend-dot" style="background:var(--s2)">2</div>
         <div>
           <div><strong>Possibly Qualified</strong></div>
-          <div class="desc">Composite 43–59 &nbsp;|&nbsp; Generally no college credit</div>
+          <div class="desc">Composite 43–59 · Generally no credit</div>
         </div>
       </div>
       <div class="legend-item">
         <div class="legend-dot" style="background:var(--s1)">1</div>
         <div>
           <div><strong>No Recommendation</strong></div>
-          <div class="desc">Composite &lt; 43 &nbsp;|&nbsp; Does not qualify</div>
+          <div class="desc">Composite &lt; 43 · Does not qualify</div>
         </div>
       </div>
     </div>
