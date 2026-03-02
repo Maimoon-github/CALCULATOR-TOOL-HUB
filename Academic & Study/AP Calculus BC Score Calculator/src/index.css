@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --lapis-deep: #0D33A6;
+  --lapis-medium: #3258A6;
+  --midnight-shale: #141A26;
+  --slate-blue: #3B4859;
+  --gold-fleck: #D9AE89;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B0B0;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --surface-hover: rgba(50, 88, 166, 0.2);
+  --font-primary: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--midnight-shale);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+#root {
+  width: 100%;
+  max-width: 1280px;
+}
+
+/* Typography */
+h1, h2, h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--lapis-deep);
+  padding-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--gold-fleck);
+}
+
+/* Cards & Containers */
+.card {
+  background-color: var(--slate-blue);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-light);
+}
+
+.card-accent {
+  border-top: 3px solid var(--gold-fleck);
+}
+
+/* Form elements */
+.input-group {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.375rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--midnight-shale);
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: var(--gold-fleck);
+  box-shadow: 0 0 0 2px rgba(217, 174, 137, 0.2);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.5;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--lapis-deep);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 4px;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: var(--lapis-medium);
+}
+
+.btn-accent {
+  background-color: var(--gold-fleck);
+  color: var(--midnight-shale);
+  font-weight: 700;
+}
+
+.btn-accent:hover {
+  background-color: #c69b6d;
+}
+
+/* Results grid */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.result-item {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--midnight-shale);
+  border-radius: 6px;
+}
+
+.result-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.result-value {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: var(--gold-fleck);
+  line-height: 1.2;
+}
+
+.result-note {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* FRQ row */
+.frq-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.frq-item {
+  text-align: center;
+}
+
+.frq-item input {
+  text-align: center;
+}
+
+/* AB Subscore section */
+.ab-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px dashed var(--lapis-medium);
+}
+
+.disclaimer {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  body { padding: 1rem; }
+  h1 { font-size: 2rem; }
+  .frq-row { grid-template-columns: repeat(3, 1fr); }
+}
